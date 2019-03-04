@@ -1,12 +1,10 @@
-import React from 'react';
+import React from "react";
 
 const Landing = () => {
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>
-        Emaily!
-      </h1>
-      Collect feedback form your users
+    <div style={{ textAlign: "center" }}>
+      <h1>React Starter</h1>
+      This is a full stack React starter application.
     </div>
   );
 };
