@@ -1,0 +1,40 @@
+.collapsible-header:hover{
+  background-color: #ae7f4e;
+}
+
+.post-board {
+  width: 90%;
+}
+
+.post-board-content {
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-bottom: 1%;
+}
+
+.content-header {
+  color: white;
+  margin-left: -2%;
+}
+
+.collapsible-header {
+  background-color: #455a64;
+  color: white;
+}
+
+.collapsible-body {
+  background-color: #546e7a;
+  color: white;
+}
+
+.collection-item {
+  color: white;
+  background-color: #455a64 !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-color: white !important;
+}
+
+.collection-item:hover {
+  background-color: #ae7f4e !important;
+}
