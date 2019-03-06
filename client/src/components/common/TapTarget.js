@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "materialize-css/dist/css/materialize.min.css";
 import Logo from "../../assets/Logo.png";
@@ -10,7 +9,7 @@ class TapTarget extends Component {
   componentDidMount() {
     if (!this.state.isHidden) {
       var elems = document.querySelectorAll(".tap-target");
-      var instances = M.TapTarget.init(elems, { onClose: this.hideTapTarget });
+      M.TapTarget.init(elems, { onClose: this.hideTapTarget });
       var elem = document.querySelector(".tap-target");
       var instance = M.TapTarget.getInstance(elem);
       this.showTapTarget(instance);

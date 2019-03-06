@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "materialize-css/dist/css/materialize.min.css";
 import PostBoard from "./common/PostBoard";
@@ -25,7 +24,7 @@ class Resources extends Component {
   componentDidMount() {
     window.addEventListener("resize", this.updateRowSize);
     var elems = document.querySelectorAll(".collapsible.expandable");
-    var instance = M.Collapsible.init(elems, {
+    M.Collapsible.init(elems, {
       accordion: true
     });
     if (window.innerWidth < 768 && this.state.rowSize !== 12) {

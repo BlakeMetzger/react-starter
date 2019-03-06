@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
-import "materialize-css/dist/css/materialize.min.css";
 import Logo from "../assets/Logo.png";
-import Divider from "./common/Divider";
 import SocialMediaIcons from "./common/SocialMediaIcons";
 import "../style/style.css";
 
@@ -12,7 +10,7 @@ export default class SideNav extends Component {
 
   componentDidMount() {
     var elem = document.querySelectorAll(".sidenav");
-    var sidenav = M.Sidenav.init(elem, {
+    M.Sidenav.init(elem, {
       edge: "left",
       inDuration: 300
     });
@@ -61,8 +59,6 @@ export default class SideNav extends Component {
                   className="nav-logo circle"
                   src={Logo}
                   alt=""
-                  hn
-                  nm
                   style={{ width: "80%" }}
                 />
                 <div>About</div>

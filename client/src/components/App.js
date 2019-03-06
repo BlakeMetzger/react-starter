@@ -8,9 +8,9 @@ import Landing from "./Landing";
 import Resources from "./Resources";
 //import Dashboard from './Dashboard';
 //import SurveyNew from './surveys/SurveyNew';
-import PostsIndex from "./posts/posts_index";
-import PostsNew from "./posts/posts_new";
-import PostsShow from "./posts/posts_show";
+import PostsIndex from "./posts/PostsIndex";
+import PostsNew from "./posts/PostsNew";
+import PostsShow from "./posts/PostsShow";
 import "../style/style.css";
 
 class App extends Component {
@@ -26,7 +26,12 @@ class App extends Component {
           <div className="nav-bottom" />
           <Switch>
             <Route exact path="/" component={Landing} />
-            <Route path="/posts/new" component={PostsNew} />
+            <Route
+              path="/posts/new"
+              component={() => {
+                return PostsNew;
+              }}
+            />
             <Route path="/posts/:id" component={PostsShow} />
             <Route path="/posts" component={PostsIndex} />
             <Route path="/resources" component={Resources} />
