@@ -4,77 +4,47 @@ const { URL } = require('url');
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
-const Mailer = require('../services/Mailer');
-const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
-const Survey = mongoose.model('surveys');
+const Posts = mongoose.model('posts');
 
 module.exports = app => {
-  app.get('/api/surveys', requireLogin, async (req, res) => {
-    const surveys = await Survey.find({ _user: req.user.id }).select({
-      recipients: false
-    });
+  app.get('/api/posts', async (req, res) => {
+    const posts = await Posts.find();
 
-    res.send(surveys);
+    res.send(posts);
   });
 
-  app.get('/api/surveys/:surveyId/:choice', (req, res) => {
-    res.send('Thanks for voting!');
-  });
+  app.post('/api/posts/delete:postId', async (req, res) => {
+    Posts.findByIdAndRemove(req.params.postId, (err, res) => {
+      if (err) return res.status(500).send(err);
+      const response = {
+        message: "Post successfully deleted.",
+        id: res._id
+      };
+    return res.status(200).send(response);
+      });
+    })
 
-  app.post('/api/surveys/webhooks', (req, res) => {
-    const p = new Path('/api/surveys/:surveyId/:choice');
 
-    _.chain(req.body)
-      .map(({ email, url }) => {
-        const match = p.test(new URL(url).pathname);
-        if (match) {
-          return { email, surveyId: match.surveyId, choice: match.choice };
-        }
-      })
-      .compact()
-      .uniqBy('email', 'surveyId')
-      .each(({ surveyId, email, choice }) => {
-        Survey.updateOne(
-          {
-            _id: surveyId,
-            recipients: {
-              $elemMatch: { email: email, responded: false }
-            }
-          },
-          {
-            $inc: { [choice]: 1 },
-            $set: { 'recipients.$.responded': true },
-            lastResponded: new Date()
-          }
-        ).exec();
-      })
-      .value();
+  app.post('/api/posts', async (req, res) => {
+    console.log(req);
+      const { title, categories, content  } = req.body;
 
-    res.send({});
-  });
-
-  app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
-    const { title, subject, body, recipients } = req.body;
-
-    const survey = new Survey({
+    const Posts = new Posts({
       title,
-      subject,
-      body,
-      recipients: recipients.split(',').map(email => ({ email: email.trim() })),
-      _user: req.user.id,
-      dateSent: Date.now()
+      author: req.user.id,
+      content,
+      categories,
+      date: Date.now(),
+      meta: {
+        upvotes: 0,
+        downvotes: 0,
+        favorites: 0
+      }
     });
-
-    // Great place to send an email!
-    const mailer = new Mailer(survey, surveyTemplate(survey));
 
     try {
-      await mailer.send();
-      await survey.save();
-      req.user.credits -= 1;
-      const user = await req.user.save();
-
+      await Posts.save();
       res.send(user);
     } catch (err) {
       res.status(422).send(err);

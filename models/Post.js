@@ -3,9 +3,9 @@ const { Schema } = mongoose;
 
 var postSchema = new Schema({
     _user: { type: Schema.Types.ObjectId, ref: 'User' },
-    title:  String,
+    title: String,
     author: String,
-    body:   String,
+    content: String,
     categories: [String],
     comments: [{ body: String, date: Date }],
     date: { type: Date, default: Date.now },
@@ -13,7 +13,7 @@ var postSchema = new Schema({
     meta: {
       upvotes: Number,
       downvotes: Number,
-      favs:  Number
+      favorites: Number
     }
   });
 

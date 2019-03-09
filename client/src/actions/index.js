@@ -5,34 +5,17 @@ import {
   FETCH_POST,
   FETCH_POSTS,
   CREATE_POST,
-  DELETE_POST,
-  DID_UPDATE_CODE
+  DELETE_POST
 } from "./types";
 
 const ROOT_URL = process.env.REACT_APP_ROOT_URL;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-// JS Playgrounds
-export function updateCode(code) {
-  //console.clear();
+export const createPost = (values, callback) => async dispatch => {
+  const request = await axios.post("/api/posts", values);
 
-  return {
-    type: DID_UPDATE_CODE,
-    payload: code
-  };
-}
-// JS Playgrounds
-
-export function createPost(values, callback) {
-  const request = axios
-    .post(`${ROOT_URL}/posts${API_KEY}`, values)
-    .then(() => callback());
-
-  return {
-    type: CREATE_POST,
-    payload: request
-  };
-}
+  dispatch({ type: CREATE_POST, payload: request });
+};
 
 export function fetchPost(id) {
   const request = axios.get(`${ROOT_URL}/posts/${id}${API_KEY}`);
