@@ -4,6 +4,9 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
+const proxy = require('http-proxy-middleware');
+const cors = require('cors');
+
 require('./models/User');
 require('./models/Survey');
 require('./models/Post');
@@ -13,6 +16,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
 
 const app = express();
+app.use(cors())
 
 app.use(bodyParser.json());
 app.use(
@@ -28,6 +32,9 @@ require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 require('./routes/surveyRoutes')(app);
 require('./routes/postRoutes')(app);
+
+app.use('/auth/google', proxy({ target: 'http://localhost:5000' }));
+app.use('/api/*', proxy({ target: 'http://localhost:5000' }));
 
 if (process.env.NODE_ENV === 'production') {
 	// Express will serve up production assets

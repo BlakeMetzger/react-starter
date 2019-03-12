@@ -12,13 +12,13 @@ const ROOT_URL = process.env.REACT_APP_ROOT_URL;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 export const createPost = (values, callback) => async dispatch => {
-  const request = await axios.post("/api/posts", values);
+  const request = await axios.post(`${ROOT_URL}/api/posts`, values);
 
   dispatch({ type: CREATE_POST, payload: request });
 };
 
 export function fetchPost(id) {
-  const request = axios.get(`${ROOT_URL}/posts/${id}${API_KEY}`);
+  const request = axios.get(`${ROOT_URL}/posts/${id}`);
   return {
     type: FETCH_POST,
     payload: request
@@ -35,7 +35,7 @@ export function deletePost(id, callback) {
 }
 
 export function fetchPosts() {
-  const request = axios.get(`${ROOT_URL}/posts${API_KEY}`);
+  const request = axios.get(`${ROOT_URL}/posts`);
 
   return {
     type: FETCH_POSTS,
@@ -46,26 +46,26 @@ export function fetchPosts() {
 /////////////////////////////////////////////////////////////
 
 export const fetchUser = () => async dispatch => {
-  const res = await axios.get("/api/current_user");
+  const res = await axios.get(`${ROOT_URL}/api/current_user`);
 
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
 export const handleToken = token => async dispatch => {
-  const res = await axios.post("/api/stripe", token);
+  const res = await axios.post(`${ROOT_URL}/api/stripe`, token);
 
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
 export const submitSurvey = (values, history) => async dispatch => {
-  const res = await axios.post("/api/surveys", values);
+  const res = await axios.post(`${ROOT_URL}/api/surveys`, values);
 
   history.push("/surveys");
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
 export const fetchSurveys = () => async dispatch => {
-  const res = await axios.get("/api/surveys");
+  const res = await axios.get(`${ROOT_URL}/api/surveys`);
 
   dispatch({ type: FETCH_SURVEYS, payload: res.data });
 };
