@@ -9,7 +9,7 @@ import {
 export default function(state = {}, action) {
 	switch (action.type) {
 		case CREATE_POST:
-			return [state, action.payload];
+			return action.payload;
 		case DELETE_POST:
 			return _.omit(state, action.payload);
 		case FETCH_POST:
