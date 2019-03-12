@@ -9,11 +9,9 @@ import TapTarget from '../common/TapTarget';
 //import PostImage from "../../assets/first-post-img.jpg";
 
 class PostsIndex extends Component {
-	state = { isHidden: false };
+	state = { isHidden: false, posts: this.props.fetchPosts() };
 
 	componentWillMount() {
-		this.props.fetchPosts();
-
 		let visited = sessionStorage.getItem('alreadyVisitedPosts');
 
 		if (visited) {
@@ -26,16 +24,21 @@ class PostsIndex extends Component {
 		}
 	}
 
+	componentDidMount() {
+		this.setState({ posts: this.props.fetchPosts() });
+	}
+
 	renderPosts() {
-		return _.map(this.props.posts, post => {
+		return _.map(this.state.posts, post => {
+			console.log(post);
 			return (
 				<li
 					className="list-group-item"
-					key={post.id}
+					key={post._id}
 					style={{ paddingBottom: 20 }}>
 					<PostCard
 						hoverable={true}
-						id={post.id}
+						id={post._id}
 						title={post.title}
 						content={post.content}
 						image={post.image}
@@ -90,7 +93,4 @@ function mapStateToProps(state) {
 	return { posts: state.posts };
 }
 
-export default connect(
-	mapStateToProps,
-	{ fetchPosts }
-)(PostsIndex);
+export default connect(mapStateToProps, { fetchPosts })(PostsIndex);

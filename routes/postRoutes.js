@@ -13,8 +13,7 @@ module.exports = app => {
 			.where('title')
 			.exists()
 			.exec();
-
-		res.send(posts);
+		return res.send(posts);
 	});
 
 	app.post('/api/posts/delete:postId', async (req, res) => {

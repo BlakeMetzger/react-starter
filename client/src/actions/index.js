@@ -12,13 +12,15 @@ const ROOT_URL = process.env.REACT_APP_ROOT_URL;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 export const createPost = (values, callback) => async dispatch => {
-	const request = await axios.post(`${ROOT_URL}/api/posts/create`, values);
+	const request = await axios
+		.post(`${ROOT_URL}/api/posts/create`, values)
+		.then(callback());
 
 	dispatch({ type: CREATE_POST, payload: request });
 };
 
 export function fetchPost(id) {
-	const request = axios.get(`${ROOT_URL}/posts/${id}`);
+	const request = axios.get(`${ROOT_URL}/api/posts/${id}`);
 	return {
 		type: FETCH_POST,
 		payload: request
@@ -26,7 +28,7 @@ export function fetchPost(id) {
 }
 
 export function deletePost(id, callback) {
-	axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`).then(() => callback());
+	axios.delete(`${ROOT_URL}/api/posts/${id}${API_KEY}`).then(() => callback());
 
 	return {
 		type: DELETE_POST,
@@ -34,14 +36,14 @@ export function deletePost(id, callback) {
 	};
 }
 
-export function fetchPosts() {
-	const request = axios.get(`${ROOT_URL}/posts`);
-
+export const fetchPosts = () => async dispatch => {
+	const request = await axios.get(`${ROOT_URL}/api/posts`);
+	console.log(request);
 	return {
 		type: FETCH_POSTS,
 		payload: request
 	};
-}
+};
 
 /////////////////////////////////////////////////////////////
 
