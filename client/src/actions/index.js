@@ -37,12 +37,13 @@ export function deletePost(id, callback) {
 }
 
 export const fetchPosts = () => async dispatch => {
-	const request = await axios.get(`${ROOT_URL}/api/posts`);
-	console.log(request);
-	return {
-		type: FETCH_POSTS,
-		payload: request
-	};
+	const { data } = await axios.get(`${ROOT_URL}/api/posts`);
+
+  dispatch({ type: FETCH_POSTS, payload: data});
+	// return {
+	// 	type: FETCH_POSTS,
+	// 	payload: data
+	// };
 };
 
 /////////////////////////////////////////////////////////////

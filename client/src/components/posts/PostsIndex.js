@@ -9,10 +9,13 @@ import TapTarget from '../common/TapTarget';
 //import PostImage from "../../assets/first-post-img.jpg";
 
 class PostsIndex extends Component {
-	state = { isHidden: false, posts: this.props.fetchPosts() };
+	state = { isHidden: false};
 
 	componentWillMount() {
 		let visited = sessionStorage.getItem('alreadyVisitedPosts');
+		//this.props.fetchPosts()
+
+		//this.setState({posts: this.props.fetchPosts()});
 
 		if (visited) {
 			//Hide Tap Target if already visited page.
@@ -25,12 +28,12 @@ class PostsIndex extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({ posts: this.props.fetchPosts() });
+		this.props.fetchPosts();
 	}
 
 	renderPosts() {
-		return _.map(this.state.posts, post => {
-			console.log(post);
+		return _.map(this.props.posts, post => {
+
 			return (
 				<li
 					className="list-group-item"
@@ -38,7 +41,7 @@ class PostsIndex extends Component {
 					style={{ paddingBottom: 20 }}>
 					<PostCard
 						hoverable={true}
-						id={post._id}
+						id={post.id}
 						title={post.title}
 						content={post.content}
 						image={post.image}

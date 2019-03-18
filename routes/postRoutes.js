@@ -46,7 +46,7 @@ module.exports = app => {
 			await post.save();
 			const response = {
 				message: 'Post successfully created.',
-				id: res._id
+				id: res.id
 			};
 			res.send(response);
 		} catch (err) {
